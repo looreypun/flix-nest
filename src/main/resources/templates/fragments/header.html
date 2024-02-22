@@ -34,17 +34,19 @@
                 </div>
                 <div class="modal-body" style="min-height: 50vh">
                     <ul class="list-group list-group-flush">
-                        <li v-for="data in response" class="list-group-item">
+                        <li v-for="data in response" :key="data.id" class="list-group-item">
                             <a class="nav-link" :href="'/video/' + data.id">
-                                <div class="d-flex justify-content-between">
-                                    <div class="info">
+                                <div class="row">
+                                    <div class="col-9">
                                         <div>{{ data.title }}</div>
-                                        <div class="small text-truncate">{{ data.description }}</div>
+                                        <div class="small text-truncate overflow-hidden">{{ data.description }}</div>
                                     </div>
-                                    <video class="shadow" height="50">
-                                        <source :src="'/videos/' + data.url" type="video/mp4">
-                                        Your browser does not support the video tag.
-                                    </video>
+                                    <div class="col-3">
+                                        <video class="shadow" height="50">
+                                            <source :src="data.url.startsWith('http')? data.url: '/videos/' + data.url" type="video/mp4">
+                                            Your browser does not support the video tag.
+                                        </video>
+                                    </div>
                                 </div>
                             </a>
                         </li>
