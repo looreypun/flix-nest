@@ -1,0 +1,10 @@
+<head xmlns:th="http://www.thymeleaf.org" th:fragment="head_fragment(title)">
+    <meta charset="UTF-8">
+    <title th:text="${title}"></title>
+    <link href="https://use.fontawesome.com/releases/v6.2.0/css/all.css" rel="stylesheet">
+    <link href="/webjars/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{/css/index.css}" />
+    <script src="/webjars/bootstrap/5.3.2/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@3"></script>
+</head>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="fragments/head :: head_fragment(title = 'HOME')">
+</head>
+<body>
+<div th:replace="fragments/header :: header_fragment"></div>
+<div class="container">
+    <div class="card shadow w-100 overflow-hidden position-relative d-flex justify-content-center align-items-center mt-5">
+        <video id="video" class="w-100" controls>
+            <source th:src="${video.url.startsWith('http') ? video.url : 'videos/' + video.url}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <i style="font-size: 50px; cursor: pointer" class="fa-regular fa-circle-play position-absolute text-light"></i>
+    </div>
+    <div class="mt-2">
+        <div th:text="${video.title}" class="card-title text-truncate"></div>
+        <p th:text="${video.description}" class="text-truncate small"></p>
+    </div>
+</div>
+</body>
+</html>

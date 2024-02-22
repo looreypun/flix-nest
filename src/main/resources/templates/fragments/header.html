@@ -1,0 +1,98 @@
+<header xmlns:th="http://www.thymeleaf.org" th:fragment="header_fragment">
+    <nav class="navbar navbar-dark navbar-expand-md bg-dark shadow">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">Flix Nest</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/upload">Upload</a>
+                    </li>
+                </ul>
+                <form class="d-flex align-items-center" role="search">
+                    <div class="nav-item me-3">
+                        <a href="/login" class="nav-link text-light">LOGIN</a>
+                    </div>
+                    <input class="form-control d-none me-2" type="search" placeholder="Search" aria-label="Search">
+                    <i style="font-size: 20px" class="fa-solid fa-magnifying-glass mx-2 text-primary cursor" data-bs-toggle="modal" data-bs-target="#searchModal"></i>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Modal -->
+    <div class="modal fade mt-5" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
+        <div class="modal-dialog mt-3">
+            <div class="modal-content rounded-1">
+                <div class="modal-header shadow-sm p-2 border-0">
+                    <input v-model="title" type="text" class="form-control rounded-1" name="search" placeholder="Search Video" @input="getVideos($event.target.value)">
+                </div>
+                <div class="modal-body" style="min-height: 50vh">
+                    <ul class="list-group list-group-flush">
+                        <li v-for="data in response" class="list-group-item">
+                            <a class="nav-link" :href="'/video/' + data.id">
+                                <div class="d-flex justify-content-between">
+                                    <div class="info">
+                                        <div>{{ data.title }}</div>
+                                        <div class="small text-truncate">{{ data.description }}</div>
+                                    </div>
+                                    <video class="shadow" height="50">
+                                        <source :src="'/videos/' + data.url" type="video/mp4">
+                                        Your browser does not support the video tag.
+                                    </video>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const app = Vue.createApp({
+            data() {
+                return {
+                    title: '',
+                    response: []
+                }
+            },
+            methods: {
+                getVideos() {
+                    if (!this.title) {
+                        this.response = [];
+                        return;
+                    }
+
+                    fetch('http://127.0.0.1:8000/video?title=' + this.title)
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            this.response = data;
+                        })
+                        .catch(error => {
+                            console.error('There was a problem with the fetch operation:', error);
+                        });
+                },
+                reset() {
+                    this.response = [];
+                }
+            },
+            mounted() {
+                $('#searchModal').on('hidden.bs.modal', () => {
+                    this.title = '';
+                    this.reset();
+                });
+            }
+        });
+        app.mount('#searchModal');
+    </script>
+</header>

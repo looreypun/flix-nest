@@ -1,0 +1,13 @@
+.cursor {
+    cursor: pointer !important;
+}
+
+.form-control:focus, .btn:focus
+{
+    border-color: #dee2e6;
+    box-shadow: none;
+}
+
+.btn {
+    border-radius: 3px;
+}
